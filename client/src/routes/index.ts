@@ -1,6 +1,7 @@
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import DashboardView from '@/views/admin/DashboardView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
+import WorkerView from '@/views/worker/WorkerView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -17,6 +18,7 @@ const router = createRouter({
     {
       path: '/admin',
       component: AdminLayout,
+      meta: {requiresAuth: true, role: 'ADMIN'},
 
       children: [
 
@@ -27,14 +29,38 @@ const router = createRouter({
 
         }
       ]
+    },
+
+
+    {
+    path: '/worker',
+    name: 'worker',
+    component: WorkerView,
+    meta: {requiresAuth: true, role:'WORKER'}
     }
-
-  
-
-
-
   
   ],
+})
+
+
+
+
+//GUARDADO GLOBAL 
+
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('token')
+  const user = JSON.parse(localStorage.getItem('user') || '{}')
+
+  if (to.meta.requiresAuth && !token) {
+    return next('/')
+  }
+
+
+  if (to.meta.role && user.role !== to.meta.role) {
+    return next('/')
+  }
+
+  next()
 })
 
 export default router
