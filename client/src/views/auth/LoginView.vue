@@ -1,20 +1,61 @@
 <script setup lang="ts">
 
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
+import axios from 'axios'
 
 
 
-const NOMBRE = ref('')
+const router = useRouter()
+
+
+
 const EMAIL = ref('')
 const PASSWORD = ref('')
+const ERROR = ref('')
 
 
 
-const loginform = () => {
+const loginform = async () => {
+    ERROR.value = ''
 
+
+    if(!EMAIL.value || !PASSWORD.value) {
+        ERROR.value= 'Todos los campos son obligatorios'
+        return
+    }
+
+
+
+    try {
+        const response = await axios.post('http://localhost:3000/api/auth/login', {
+            email: EMAIL.value,
+            password: PASSWORD.value
+        })
+
+
+        const  { token, user } = response.data
+
+
+        // Guardar sesion (temporalmente en localstorage)
+        localStorage.setItem('token', token)
+        localStorage.setItem('user', JSON.stringify(user))
+
+
+        // Redireccion segun rol
+        if (user.role === 'ADMIN') {
+            router.push('/admin')
+        }else {
+            router.push('/worker')
+        }
+
+    }catch (err: any) {
+        ERROR.value =
+        err.response?.data?.message ||
+        'Credenciales incorrectas o usuario no autorizado'
+    
+    }
 }
-
-
 
 </script>
 
@@ -27,10 +68,6 @@ const loginform = () => {
 
     <form @submit.prevent="loginform">
 
-
-
-        <label for="text">Nombre de Trabajador:</label>
-        <input v-model="NOMBRE" type="text">
 
 
 
@@ -46,9 +83,12 @@ const loginform = () => {
 
         <button type="submit">Ingresar</button>
 
-        <p>AQUI SE SUPONE QUE NO SE PUEDE REGISTRAR SOLO EL TRABAJADOR
-            TIENE QUE ESPERAR QUE EL ADMIN LOGEE AL TRABAJADOR ESO HACE QUE 
-            SEA MAS SEGURO 
+
+        <p v-if="ERROR">{{ ERROR }}</p>
+
+        <p>
+            El trabajador no puede registrarse.
+            El acceso es habilitado unicamente por el administrador.
         </p>
     </form>
 
