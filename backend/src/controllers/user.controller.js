@@ -62,3 +62,52 @@ export const toggleWorker = async (req, res) => {
     res.status(500).json({ message: 'Error al cambiar estado' })
   }
 }
+
+
+
+
+
+
+export const updateWorker = async (req, res) => {
+  try{
+    const {name, email} = req.body
+
+
+    const user  = await User.findByIdAndUpdate(
+      req.params.id,
+      {name, email},
+      {new: true}
+    ).select("-password")
+
+
+    if (!user){
+      return res.status(404).json({message: 'Usuario no encontrado'})
+    }
+
+    res.json(user)
+  } catch {
+    res.status(500).json({message: 'Error al actualizar trabajador'})
+  }
+}
+
+
+
+
+
+
+
+
+
+export const deleteWorker = async (req, res) => {
+  try{
+    const user = await User.findByIdAndDelete(req.params.id)
+
+    if (!user) {
+      return res.status(404).json({message: 'Usuario no encontrado'})
+    }
+
+    res.json({message: 'Trabajador eliminado'})
+  }catch {
+    res.status(500).json({message: 'Error al eliminar trabajador'})
+  }
+}

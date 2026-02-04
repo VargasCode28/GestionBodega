@@ -13,7 +13,7 @@ const logout = () => {
 <template>
   <div class="admin-layout">
     <aside>
-      <h2>Bodega</h2>
+      <h2>GESTION EMPRESARIAL</h2>
       <router-link to="/admin">Dashboard</router-link>
       <button @click="logout">Salir</button>
     </aside>
