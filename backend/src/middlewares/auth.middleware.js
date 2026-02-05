@@ -1,23 +1,112 @@
+// import jwt from 'jsonwebtoken'
+// import User from '../models/User.js'
+
+
+
+// export const auth = (req, res, next) => {
+//     const token = req.headers.authorization?.split(' ')[1]
+
+
+
+//     if(!token)
+//         return res.status(401).json({message: 'No autorizado'})
+
+
+
+//     try {
+//         const decoded = jwt.verify(token, process.env.JWT_SECRET)
+//         req.user = decoded
+//         next()
+
+//     }catch {
+//         res.status(401).json({message: 'Token invalido'})
+//     }
+//     }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 import jwt from 'jsonwebtoken'
+import User from '../models/User.model.js'
 
+export const auth = async (req, res, next) => {
 
+  const token = req.headers.authorization?.split(' ')[1]
 
-export const auth = (req, res, next) => {
-    const token = req.headers.authorization?.split(' ')[1]
+  if (!token) {
+    return res.status(401).json({
+      message: 'No autorizado'
+    })
+  }
 
+  try {
 
+    const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
-    if(!token)
-        return res.status(401).json({message: 'No autorizado'})
+    // 🔥 buscar usuario real
+    const user = await User.findById(decoded.id)
 
-
-
-    try {
-        const decoded = jwt.verify(token, process.env.JWT_SECRET)
-        req.user = decoded
-        next()
-
-    }catch {
-        res.status(401).json({message: 'Token invalido'})
+    if (!user) {
+      return res.status(401).json({
+        message: 'Usuario no existe'
+      })
     }
-    }
+
+    req.user = user
+
+    next()
+
+  } catch {
+    return res.status(401).json({
+      message: 'Token inválido'
+    })
+  }
+}
+
