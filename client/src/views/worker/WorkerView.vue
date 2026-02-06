@@ -1,37 +1,3 @@
-<!-- <script setup lang="ts">
-import { ref, onMounted } from 'vue';
-import axios from 'axios'
-
-
-const user = JSON.parse(localStorage.getItem('user') || '{}')
-const tools = ref<any[]>([])
-
-
-const api = axios.create({
-    baseURL: 'http://localhost:3000/api'
-})
-
-
-
-
-
-
-
-</script>
-
-
-
-<template>
-    <h1>Panel Trabajador</h1>
-
-    <p>Bienvendio, <strong>{{ user.name }}</strong></p>
-
-
-    <p>
-    Desde aqui podras realizar las acciones asignadas a tu rol.
-    </p>
-
-</template> -->
 
 
 
@@ -107,15 +73,36 @@ api.interceptors.request.use(config => {
   return config
 })
 
+// const loadTools = async () => {
+//   try {
+//     const res = await api.get('/tools')
+//     tools.value = res.data
+//   } catch (err) {
+//     error.value = 'No se pudieron cargar herramientas'
+//     console.error(err)
+//   }
+// }
+
+
+
+
+
+
 const loadTools = async () => {
   try {
     const res = await api.get('/tools')
-    tools.value = res.data
+
+    tools.value = res.data.filter(
+      (tool:any) => tool.status === 'AVAILABLE'
+    )
+
   } catch (err) {
     error.value = 'No se pudieron cargar herramientas'
-    console.error(err)
   }
 }
+
+
+
 
 
 
@@ -133,6 +120,27 @@ onMounted(() => {
     loadTools()
   }
 })
+
+
+
+const borrowTool = async (toolId:string) => {
+  try {
+
+    await api.post('/borrow', { toolId })
+
+    await loadTools()
+
+    alert('Herramienta solicitada correctamente')
+
+  } catch (err) {
+
+    console.error(err)
+    alert('No se pudo pedir la herramienta')
+
+  }
+}
+
+
 
 </script>
 
@@ -192,9 +200,14 @@ onMounted(() => {
               <p class="text-muted small line-clamp">{{ tool.description }}</p>
               
               <div class="mt-4 d-grid">
-                <button class="btn btn-dark py-2 fw-bold rounded-3">
+                <!-- <button class="btn btn-dark py-2 fw-bold rounded-3">
                   Pedir Herramienta<i class="bi bi-arrow-right-short ms-1"></i>
+                </button> -->
+
+                <button @click="borrowTool(tool._id)">
+                Pedir Herramienta
                 </button>
+
               
               </div>
             </div>

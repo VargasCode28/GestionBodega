@@ -6,6 +6,7 @@ import userRoutes from './routes/user.routes.js'
 import toolRoutes from './routes/tool.routes.js'
 import loanRoutes from './routes/loan.routes.js'
 
+import borrowRoutes from './routes/borrow.routes.js'
 
 const app = express()
 
@@ -20,6 +21,9 @@ app.use('/api/users', userRoutes)
 
 app.use('/api/tools', toolRoutes)
 app.use('/api/loans', loanRoutes)
+
+
+app.use('/api/borrow', borrowRoutes)
 
 
 

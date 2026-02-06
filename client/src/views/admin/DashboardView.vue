@@ -17,6 +17,31 @@ const toolDescription = ref('')
 
 
 
+const borrows = ref<any[]>([])
+
+
+const loadBorrows = async () => {
+  try {
+    const res = await api.get('/borrow')
+    borrows.value = res.data
+  } catch {
+    error.value = 'Error al cargar préstamos'
+  }
+}
+
+
+const returnTool = async (id:string) => {
+  try {
+    await api.put(`/borrow/return/${id}`)
+    loadBorrows()
+    loadTools()
+  } catch {
+    error.value = 'Error al devolver herramienta'
+  }
+}
+
+
+
 
 const name = ref('')
 const email = ref('')
@@ -302,6 +327,23 @@ onMounted(loadWorkers)
 
 
 
+
+
+
+
+
+
+onMounted(() => {
+  loadWorkers()
+  loadTools()
+  loadBorrows()
+
+  setInterval(() => {
+    loadBorrows()
+  }, 5000)
+})
+
+
 </script>
 
 
@@ -481,6 +523,90 @@ onMounted(loadWorkers)
       </div>
     </div>
   </div> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="card border-0 shadow-sm rounded-4 mt-4">
+  <div class="card-header bg-white border-0 pt-4 px-4">
+    <h5 class="fw-bold mb-0">
+      <i class="bi bi-clipboard-check me-2"></i>
+      Seguimiento de Herramientas
+    </h5>
+  </div>
+
+  <div class="card-body px-4 pb-4">
+    <div class="table-responsive">
+      <table class="table table-hover align-middle custom-table">
+        <thead>
+          <tr>
+            <th>Trabajador</th>
+            <th>Herramienta</th>
+            <th>Fecha</th>
+            <th>Estado</th>
+            <th class="text-end">Acción</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr v-for="b in borrows" :key="b._id">
+
+            <td>{{ b.user?.name }}</td>
+
+            <td>{{ b.tool?.name }}</td>
+
+            <td>
+              {{ new Date(b.borrowedAt).toLocaleDateString() }}
+            </td>
+
+            <td>
+              <span
+                :class="b.status === 'BORROWED'
+                  ? 'status-active'
+                  : 'status-blocked'"
+              >
+                {{ b.status }}
+              </span>
+            </td>
+
+            <td class="text-end">
+
+              <button
+                v-if="b.status === 'BORROWED'"
+                @click="returnTool(b._id)"
+                class="btn btn-success btn-sm"
+              >
+                Marcar devolución
+              </button>
+
+              <span v-else class="text-muted small">
+                Entregado
+              </span>
+
+            </td>
+
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+
 </template>
 
 <style scoped>
