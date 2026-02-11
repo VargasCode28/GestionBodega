@@ -1,6 +1,5 @@
 import AdminLayout from '@/layouts/AdminLayout.vue'
 import DashboardView from '@/views/admin/DashboardView.vue'
-import HerramientasView from '@/views/admin/HerramientasView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import WorkerView from '@/views/worker/WorkerView.vue'
 import { createRouter, createWebHistory } from 'vue-router'
@@ -14,9 +13,6 @@ const router = createRouter({
       component: LoginView,
     },
 
-
-
-  
 
     {
       path: '/admin',
@@ -34,12 +30,25 @@ const router = createRouter({
 
 
       {
-        path: '/admin/HerramientasView',
+        path: 'HerramientasView',
         name: 'herramientas',
-        component: HerramientasView,
-      }
+        component: () => import('@/views/admin/HerramientasView.vue'),
+      },
+
+
+      {
+        path: 'seguimientoview',
+        name: 'seguimiento',
+        component: () => import('@/views/admin/SeguimientoView.vue'),
+        
+      },
+
+      
       ]
     },
+
+
+
 
 
       {
@@ -49,6 +58,14 @@ const router = createRouter({
       meta: {requiresAuth: true, role:'WORKER'}
       
       }
+
+  
+
+
+
+
+
+
   
   ],
 })
@@ -57,6 +74,8 @@ const router = createRouter({
 
 
 //GUARDADO GLOBAL 
+
+
 
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('token')
@@ -73,5 +92,14 @@ router.beforeEach((to, from, next) => {
 
   next()
 })
+
+
+
+
+
+
+
+
+
 
 export default router

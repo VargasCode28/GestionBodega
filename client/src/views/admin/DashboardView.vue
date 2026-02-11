@@ -8,37 +8,7 @@ const workers = ref<any[]>([])
 const selectedId = ref<string | null>(null)
 
 
-const tools = ref<any[]>([])
-const toolSelectedId = ref<string | null>(null)
-
-
-const  toolName = ref('')
-const toolDescription = ref('')
-
-
-
-const borrows = ref<any[]>([])
-
-
-const loadBorrows = async () => {
-  try {
-    const res = await api.get('/borrow')
-    borrows.value = res.data
-  } catch {
-    error.value = 'Error al cargar préstamos'
-  }
-}
-
-
-const returnTool = async (id:string) => {
-  try {
-    await api.put(`/borrow/return/${id}`)
-    loadBorrows()
-    loadTools()
-  } catch {
-    error.value = 'Error al devolver herramienta'
-  }
-}
+// const toolSelectedId = ref<string | null>(null)
 
 
 
@@ -74,142 +44,6 @@ const loadWorkers = async () => {
     error.value = 'Error al cargar trabajadores'
   }
 }
-
-
-
-
-const loadTools = async () => {
-  const res = await api.get('/tools')
-  tools.value = res.data
-}
-
-
-
-
-
-// Seleccionar herramienta
-const selectTool = (t:any) => {
-  toolSelectedId.value = t._id
-  toolName.value = t.name
-  toolDescription.value = t.description
-}
-
-
-
-
-
-
-
-
-const createTool = async () => {
-  error.value = ''
-
-  try {
-    await api.post('/tools', {
-      name: toolName.value,
-      description: toolDescription.value
-    })
-
-    clearToolForm()
-    loadTools()
-
-  } catch (err: any) {
-    console.log(err)
-    error.value = err.response?.data?.message || 'Error al crear herramienta'
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-const updateTool = async () => {
-  if (!toolSelectedId.value) return
-
-  error.value = ''
-
-  try {
-    await api.put(`/tools/${toolSelectedId.value}`, {
-      name: toolName.value,
-      description: toolDescription.value
-    })
-
-    clearToolForm()
-    loadTools()
-
-  } catch (err: any) {
-    console.log(err)
-    error.value = err.response?.data?.message || 'Error al editar herramienta'
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-const deleteTool = async () => {
-  if (!toolSelectedId.value) return
-  if (!confirm('¿Eliminar herramienta?')) return
-
-  error.value = ''
-
-  try {
-    await api.delete(`/tools/${toolSelectedId.value}`)
-
-    clearToolForm()
-    loadTools()
-
-  } catch (err: any) {
-    console.log(err)
-    error.value = err.response?.data?.message || 'Error al eliminar herramienta'
-  }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-// Limpiar formulario
-const clearToolForm = () => {
-  toolSelectedId.value = null
-  toolName.value = ''
-  toolDescription.value = ''
-}
-
-
-// cargar herramientas al montar
-onMounted(loadTools)
-
 
 
 
@@ -267,15 +101,6 @@ onMounted(loadWorkers)
 
 
 
-
-
-
-
-
-
-
-
-
 const updateWorker =  async () => {
   if (!selectedId.value) return
 
@@ -328,18 +153,13 @@ onMounted(loadWorkers)
 
 
 
-
-
-
-
-
 onMounted(() => {
   loadWorkers()
-  loadTools()
-  loadBorrows()
+  // loadTools()
+  // loadBorrows()
 
   setInterval(() => {
-    loadBorrows()
+    // loadBorrows()
   }, 5000)
 })
 
@@ -353,15 +173,9 @@ onMounted(() => {
 
 
 
-
-
-
-
-
-
 <template>
   <div class="admin-container animate-fade-up">
-    <header class="mb-4 d-flex align-items-center justify-content-between">
+    <header class="mb-1 d-flex align-items-center justify-content-between">
       <div>
         <h2 class="fw-bold text-dark mb-1">Gestión Empresarial</h2>
         <p class="text-muted small">Administra el personal operativo y el inventario de herramientas.</p>
@@ -386,7 +200,11 @@ onMounted(() => {
                     <th>Nombre</th>
                     <th>Contacto</th>
                     <th>Estado</th>
-                    <th class="text-end">Acciones</th>
+                    <!-- <th class="text-end">Acciones</th> -->
+                    <th class="text-end">
+                    <i class="bi bi-gear-fill me-1 text-secondary"></i>
+                    Acciones
+                  </th>
                   </tr>
                 </thead>
                 <tbody>
@@ -415,42 +233,7 @@ onMounted(() => {
             </div>
           </div>
         </div>
-
-
-
-        <div class="card border-0 shadow-sm rounded-4">
-          <div class="card-header bg-white border-0 pt-4 px-4">
-            <h5 class="fw-bold mb-0"><i class="bi bi-hammer me-2"></i>Inventario de Herramientas</h5>
-          </div>
-          <div class="card-body px-4 pb-4">
-            <div class="table-responsive">
-              <table class="table table-hover align-middle custom-table">
-                <thead>
-                  <tr>
-                    <th>Herramienta</th>
-                    <th>Descripción</th>
-                    <th class="text-end">Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr v-for="t in tools" :key="t._id" :class="{'table-light': toolSelectedId === t._id}">
-                    <td class="fw-bold">{{ t.name }}</td>
-                    <td class="text-muted small">{{ t.description }}</td>
-                    <td class="text-end">
-                      <button @click="selectTool(t)" class="btn btn-icon">
-                        <i class="bi bi-gear-fill text-dark"></i>
-                      </button>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </div>
-      </div>  
-
-
-
+    </div>
 
       <div class="col-xl-4">
         <div class="card border-0 shadow-sm rounded-4 mb-4 sticky-form">
@@ -491,123 +274,20 @@ onMounted(() => {
           </div>
         </div> 
 
-
-
-
-
-      
-        <div class="card border-0 shadow-sm rounded-4 sticky-form-tool">
-          <div class="card-body p-4">
-            <h6 class="text-uppercase text-muted fw-bold mb-4 small tracking-widest">
-              {{ toolSelectedId ? 'Editar Herramienta' : 'Nueva Herramienta' }}
-            </h6>
-            <div class="mb-3">
-              <input v-model="toolName" class="form-control custom-input" placeholder="Nombre de herramienta" />
-            </div>
-            <div class="mb-4">
-              <textarea v-model="toolDescription" class="form-control custom-input" placeholder="Descripción técnica..." rows="2"></textarea>
-            </div>
-
-            <div class="d-grid gap-2">
-              <button v-if="!toolSelectedId" @click="createTool" class="btn btn-outline-dark fw-bold">Añadir al Stock</button>
-              <template v-else>
-                <button @click="updateTool" class="btn btn-dark">Actualizar</button>
-                <div class="btn-group">
-                  <button @click="deleteTool" class="btn btn-sm btn-outline-danger border-0">Borrar</button>
-                  <button @click="clearToolForm" class="btn btn-sm btn-outline-secondary border-0">Cancelar</button>
-                </div> 
-              </template> 
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div class="card border-0 shadow-sm rounded-4 mt-4">
-  <div class="card-header bg-white border-0 pt-4 px-4">
-    <h5 class="fw-bold mb-0">
-      <i class="bi bi-clipboard-check me-2"></i>
-      Seguimiento de Herramientas
-    </h5>
   </div>
-
-  <div class="card-body px-4 pb-4">
-    <div class="table-responsive">
-      <table class="table table-hover align-middle custom-table">
-        <thead>
-          <tr>
-            <th>Trabajador</th>
-            <th>Herramienta</th>
-            <th>Fecha</th>
-            <th>Estado</th>
-            <th class="text-end">Acción</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          <tr v-for="b in borrows" :key="b._id">
-
-            <td>{{ b.user?.name }}</td>
-
-            <td>{{ b.tool?.name }}</td>
-
-            <td>
-              {{ new Date(b.borrowedAt).toLocaleDateString() }}
-            </td>
-
-            <td>
-              <span
-                :class="b.status === 'BORROWED'
-                  ? 'status-active'
-                  : 'status-blocked'"
-              >
-                {{ b.status }}
-              </span>
-            </td>
-
-            <td class="text-end">
-
-              <button
-                v-if="b.status === 'BORROWED'"
-                @click="returnTool(b._id)"
-                class="btn btn-success btn-sm"
-              >
-                Marcar devolución
-              </button>
-
-              <span v-else class="text-muted small">
-                Entregado
-              </span>
-
-            </td>
-
-          </tr>
-        </tbody>
-      </table>
     </div>
   </div>
-</div>
-
 
 </template>
+
+
+
+
+
+
+
+
+
 
 <style scoped>
 /* Reset & Typography */
@@ -672,13 +352,30 @@ onMounted(() => {
 }
 
 .btn-icon {
-  background: #dcdcdc; 
+  /* background: #dcdcdc; 
   border: none;
   border-radius: 8px;
   width: 36px;
   height: 36px;
-  transition: all 0.2s;
+  transition: all 0.2s; */
+
+  border: none;
+  border-radius: 8px;
+  width: 38px;
+  height: 38px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  background: #f8f9fa;
+  border: 1px solid #dee2e6;
 }
+
+.btn-icon:hover {
+  transform: translateY(-2px);
+}
+
+
 
 .btn-icon:hover {
   background: #e9ecef;

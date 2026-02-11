@@ -5,15 +5,12 @@ import { useRouter } from 'vue-router';
 import axios from 'axios'
 
 
-
 const router = useRouter()
-
 
 
 const EMAIL = ref('')
 const PASSWORD = ref('')
 const ERROR = ref('')
-
 
 
 const loginform = async () => {
@@ -61,8 +58,9 @@ const loginform = async () => {
 
 
 <template>
-<div class="login-container d-flex align-items-center justify-content-center">
-    <div class="card shadow-sm border-0 p-4   animate-fade-up" style="max-width: 400px; width: 100%;">
+<div class="login-container d-flex align-items-center justify-content-center ">
+    <div class="overlay"></div>
+    <div class="card shadow-sm border-0 p-4   animate-fade-up   " style="max-width: 400px; width: 100%;">
     
     <div class="text-center mb-4">
         <h2 class="fw-bold text-uppercase tracking-wider">Constructora</h2>
@@ -110,69 +108,10 @@ const loginform = async () => {
 
 
 
-<style scoped>
+<style scoped
 
-.login-container {
-min-height: 100vh;
-background-color: #f8f9fa; 
-}
+src="/src/styles/LoginView.css"
 
-.card {
-border-radius: 12px;
-}
+>
 
-.custom-input {
-border: 1px solid #dee2e6;
-font-size: 0.95rem;
-transition: all 0.2s ease;
-}
-
-.custom-input:focus {
-border-color: #212529;
-box-shadow: none;
-background-color: #fff;
-}
-
-.tracking-wider {
-letter-spacing: 2px;
-}
-
-.btn-dark {
-background-color: #212529;
-border: none;
-transition: background-color 0.3s ease;
-}
-
-.btn-dark:hover {
-background-color: #000;
-}
-
-
-
-
-
-
-
-
-
-.animate-fade-up {
-    animation: fadeUp 0.8s ease-out forwards;
-}
-
-
-
-@keyframes fadeUp {
-    0% {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-
-    100% {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-
-
-}
 </style>

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { RouterLink, useRouter } from 'vue-router'
+import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
@@ -25,22 +25,25 @@ const logout = () => {
       </div>
 
       <nav class="sidebar-nav">
-        <router-link to="/admin" class="nav-item" active-class="active">
+        <router-link :to="{name: 'admin'}" class="nav-item" active-class="active">
           <i class="bi bi-speedometer2"></i>
           <span>Dashboard</span>
 
         </router-link>
 
-        <router-link to="/admin/HerramientasView" class="nav-item" active-class="active">
+
+
+        <router-link :to="{name: 'herramientas'}" class="nav-item" active-class="active">
           <i class="bi bi-people"></i>
           <span>Herramientas</span>
         </router-link>
 
 
 
-      <router-link to="/admin/proyectos" class="nav-item" active-class="active">
+
+      <router-link :to="{name: 'seguimiento'}" class="nav-item" active-class="active">
           <i class="bi bi-cone-striped"></i>
-          <span>Proyectos</span>
+          <span>Seguimiento</span>
         </router-link>
 
         <div class="nav-divider"></div>
@@ -63,42 +66,24 @@ const logout = () => {
         </div>
       </header>
 
+
       <section class="content-body">
-        <router-view v-slot="{ Component }">
+        <router-view v-slot="{ Component, route }">
           <transition name="fade-up" mode="out-in">
-            <component :is="Component" />
+            <!-- <component :is="Component" :key="route.fullPath"/>   ESTE ERA EL PROBLEMA DEL BUG -->  
+            <div :key="route.fullPath"><component :is="Component" />
+
+            </div>
           </transition>
 
-        
+
+    
         </router-view>
       </section>
     </main>
   </div>
 
   
-
-
-
-
-
-
-
-
-
-
-
-
-  <!-- <div class="admin-layout">
-    <aside>
-      <h2>GESTION EMPRESARIAL Contru SOFT</h2>
-      <router-link to="/admin">Dashboard</router-link>
-      <button @click="logout">Salir</button>
-    </aside>
-
-    <main>
-      <router-view />
-    </main>
-  </div> -->
 </template>
 
 
@@ -116,10 +101,10 @@ const logout = () => {
   background-color: #f4f7f6;
 }
 
-/* Sidebar Estilizada */
+
 .sidebar {
   width: 260px;
-  background: #1a1c1e; /* Negro azulado muy elegante */
+  background: #1a1c1e; 
   color: #fff;
   display: flex;
   flex-direction: column;
@@ -150,7 +135,7 @@ const logout = () => {
 }
 
 .brand-name span {
-  color: #ffc107; /* Amarillo construcción */
+  color: #ffc107; 
 }
 
 .role-badge {
@@ -160,7 +145,6 @@ const logout = () => {
   font-weight: 700;
 }
 
-/* Navegación */
 .sidebar-nav {
   flex: 1;
   padding: 0 1rem;
@@ -231,7 +215,7 @@ const logout = () => {
   padding: 2.5rem;
 }
 
-/* Animación de Transición */
+
 .fade-up-enter-active,
 .fade-up-leave-active {
   transition: all 0.3s ease;
