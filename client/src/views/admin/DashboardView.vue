@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import axios from 'axios'
 
 
+
 const workers = ref<any[]>([])
 const selectedId = ref<string | null>(null)
 
@@ -162,6 +163,11 @@ onMounted(() => {
     // loadBorrows()
   }, 5000)
 })
+
+
+
+
+
 
 
 </script>
@@ -352,12 +358,6 @@ onMounted(() => {
 }
 
 .btn-icon {
-  /* background: #dcdcdc; 
-  border: none;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  transition: all 0.2s; */
 
   border: none;
   border-radius: 8px;

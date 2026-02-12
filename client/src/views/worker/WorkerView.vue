@@ -1,58 +1,12 @@
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
 import axios from 'axios'
 import router from '@/routes'
+
+import Swal from 'sweetalert2'
+
+
 
 const user = JSON.parse(localStorage.getItem('user') || '{}')
 
@@ -73,19 +27,6 @@ api.interceptors.request.use(config => {
   return config
 })
 
-// const loadTools = async () => {
-//   try {
-//     const res = await api.get('/tools')
-//     tools.value = res.data
-//   } catch (err) {
-//     error.value = 'No se pudieron cargar herramientas'
-//     console.error(err)
-//   }
-// }
-
-
-
-
 
 
 const loadTools = async () => {
@@ -103,14 +44,38 @@ const loadTools = async () => {
 
 
 
+const logout = async () => {
 
+  if (!localStorage.getItem('token')) return
 
+  const result = await Swal.fire({
+    title: '¿Cerrar sesión?',
+    text: 'Tu sesión actual se cerrará',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#d33',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Sí, salir',
+    cancelButtonText: 'Cancelar'
+  })
 
-const logout = () => {
+  if (!result.isConfirmed) return
+
   localStorage.removeItem('token')
   localStorage.removeItem('user')
-  router.push('/')
+
+  await Swal.fire({
+    icon: 'success',
+    title: 'Sesión cerrada',
+    timer: 1000,
+    showConfirmButton: false
+  })
+
+  router.replace('/')
 }
+
+
+
 
 onMounted(() => {
   
@@ -123,19 +88,38 @@ onMounted(() => {
 
 
 
-const borrowTool = async (toolId:string) => {
+const borrowTool = async (toolId: string) => {
+
+  const confirm = await Swal.fire({
+    title: '¿Solicitar herramienta?',
+    text: 'La herramienta será asignada a tu usuario',
+    icon: 'question',
+    showCancelButton: true,
+    confirmButtonText: 'Solicitar',
+    cancelButtonText: 'Cancelar'
+  })
+
+  if (!confirm.isConfirmed) return
+
   try {
 
     await api.post('/borrow', { toolId })
-
     await loadTools()
 
-    alert('Herramienta solicitada correctamente')
+    Swal.fire({
+      icon: 'success',
+      title: 'Herramienta solicitada',
+      timer: 1500,
+      showConfirmButton: false
+    })
 
   } catch (err) {
 
-    console.error(err)
-    alert('No se pudo pedir la herramienta')
+    Swal.fire({
+      icon: 'error',
+      title: 'Error',
+      text: 'No se pudo pedir la herramienta'
+    })
 
   }
 }
@@ -200,9 +184,7 @@ const borrowTool = async (toolId:string) => {
               <p class="text-muted small line-clamp">{{ tool.description }}</p>
               
               <div class="mt-4 d-grid">
-                <!-- <button class="btn btn-dark py-2 fw-bold rounded-3">
-                  Pedir Herramienta<i class="bi bi-arrow-right-short ms-1"></i>
-                </button> -->
+              
 
                 <button @click="borrowTool(tool._id)">
                 Pedir Herramienta

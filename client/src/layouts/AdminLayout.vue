@@ -3,10 +3,43 @@ import { useRouter } from 'vue-router'
 
 const router = useRouter()
 
-const logout = () => {
-  localStorage.clear()
-  router.push('/')
+import Swal from 'sweetalert2'
+
+
+
+const logout = async () => {
+  const result = await Swal.fire({
+    title: '¿Cerrar sesion?',
+    text: 'Se cerrara tu sesion actual',
+    icon: 'warning',
+    showCancelButton: true,
+    confirmButtonColor: '#dc3545',
+    cancelButtonColor: '#6c757d',
+    confirmButtonText: 'Si, cerrar sesion',
+    cancelButtonText: 'cancelar'
+  })
+
+
+  if (result.isConfirmed) {
+    localStorage.removeItem('token')
+    localStorage.removeItem('user')
+
+
+    Swal.fire({
+      icon: 'success',
+      title: 'Sesion cerrada',
+      showConfirmButton: false,
+      timer: 1500
+    })
+
+
+    setTimeout(() => {
+      window.location.href ='/'
+    },1500)
+  }
 }
+
+
 
 </script>
 
@@ -50,6 +83,7 @@ const logout = () => {
 
         <button @click="logout" class="nav-item logout-btn">
           <i class="bi bi-box-arrow-left"></i>
+
           <span>Cerrar Sesión</span>
         </button>
 

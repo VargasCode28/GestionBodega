@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, computed } from 'vue';
 import axios from 'axios';
 
 
@@ -30,8 +30,35 @@ return config
 
 
 
-const borrows = ref<any[]>([])
 
+const showHistory = ref(false)
+
+
+const filteredBorrows = computed(() => {
+  return showHistory.value
+    ? borrows.value
+    : borrows.value.filter(b => b.status === 'BORROWED')
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const borrows = ref<any[]>([])
 
 
 const loadBorrows = async () => {
@@ -91,7 +118,86 @@ setInterval(() => {
     </h5>
 </div>
 
+
+
+
+
+
+
+
+
+
+
+
+
+
 <div class="card-body px-4 pb-4">
+
+
+
+
+
+
+
+<div class="d-flex justify-content-end mb-3">
+  <button 
+    @click="showHistory = !showHistory"
+    class="btn btn-sm btn-outline-dark"
+  >
+    {{ showHistory ? 'Ver solo activas' : 'Ver historial completo' }}
+  </button>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     <div class="table-responsive">
     <table class="table table-hover align-middle custom-table">
         <thead>
@@ -105,7 +211,8 @@ setInterval(() => {
         </thead>
 
         <tbody>
-        <tr v-for="b in borrows" :key="b._id">
+        <!-- <tr v-for="b in borrows" :key="b._id"> -->   <!-- CHANGE-->
+          <tr v-for="b in filteredBorrows" :key="b._id">
 
             <td>{{ b.user?.name }}</td>
 
