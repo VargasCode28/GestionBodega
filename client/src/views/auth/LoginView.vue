@@ -2,7 +2,7 @@
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios'
+import axios from 'axios';
 
 
 const router = useRouter()
@@ -13,7 +13,10 @@ const PASSWORD = ref('')
 const ERROR = ref('')
 
 
+
+
 const loginform = async () => {
+
     ERROR.value = ''
 
 
@@ -33,6 +36,7 @@ const loginform = async () => {
 
         const  { token, user } = response.data
 
+    
 
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
@@ -51,6 +55,8 @@ const loginform = async () => {
     
     }
 }
+
+
 
 </script>
 

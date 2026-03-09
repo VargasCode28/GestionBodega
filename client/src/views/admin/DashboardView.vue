@@ -9,10 +9,6 @@ const workers = ref<any[]>([])
 const selectedId = ref<string | null>(null)
 
 
-// const toolSelectedId = ref<string | null>(null)
-
-
-
 
 const name = ref('')
 const email = ref('')
@@ -33,6 +29,8 @@ api.interceptors.request.use((config) => {
   }
   return config
 })
+
+
 
 
 
@@ -170,6 +168,46 @@ onMounted(() => {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </script>
 
 
@@ -187,7 +225,7 @@ onMounted(() => {
         <p class="text-muted small">Administra el personal operativo y el inventario de herramientas.</p>
       </div>
       <div class="badge bg-warning text-dark px-3 py-2 rounded-pill fw-bold">
-        CONSTRU-SOFT v3.5
+        CONSTRU-SOFT v1.0
       </div>
     </header>
 

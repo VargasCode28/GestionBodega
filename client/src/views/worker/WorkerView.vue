@@ -13,9 +13,12 @@ const user = JSON.parse(localStorage.getItem('user') || '{}')
 const tools = ref<any[]>([])
 const error = ref('')
 
+
 const api = axios.create({
   baseURL: 'http://localhost:3000/api'
 })
+
+
 
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token')
@@ -26,6 +29,8 @@ api.interceptors.request.use(config => {
 
   return config
 })
+
+
 
 
 
@@ -205,74 +210,11 @@ const borrowTool = async (toolId: string) => {
 
 
 
-<style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap');
+<style scoped
 
-.dashboard-wrapper {
-  background-color: #fcfcfc;
-  min-height: 100vh;
-  font-family: 'Inter', sans-serif;
-}
+src="/src/styles/WorkerView.css"
 
-/* Tipografía y Espaciado */
-.tracking-tighter { letter-spacing: -1px; }
-.tracking-widest { letter-spacing: 3px; }
 
-/* Animación de entrada escalonada */
-.animate-fade-up {
-  animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
+>
 
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Tarjetas de Herramientas Estilizadas */
-.tool-card {
-  border: 1px solid rgba(0,0,0,0.05);
-  border-radius: 20px;
-  background: #ffffff;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  box-shadow: 0 2px 10px rgba(0,0,0,0.02);
-}
-
-.tool-card:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.06);
-  border-color: #ffc107; /* El amarillo de seguridad al pasar el mouse */
-}
-
-.icon-container {
-  width: 54px;
-  height: 54px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: #f8f9fa;
-  border-radius: 15px;
-}
-
-/* Limitar texto a 2 líneas para mantener simetría */
-.line-clamp {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-.btn-dark {
-  background-color: #1a1a1a;
-  border: none;
-}
-
-.btn-dark:hover {
-  background-color: #000;
-  transform: scale(1.02);
-}
-
-.stats-card {
-  border-radius: 18px;
-  min-width: 160px;
-}
 </style>
