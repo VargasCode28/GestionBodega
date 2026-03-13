@@ -1,4 +1,5 @@
 import AdminLayout from '@/layouts/AdminLayout.vue'
+import WorkerLayout from '@/layouts/WorkerLayout.vue'
 import DashboardView from '@/views/admin/DashboardView.vue'
 import LoginView from '@/views/auth/LoginView.vue'
 import WorkerView from '@/views/worker/WorkerView.vue'
@@ -41,9 +42,9 @@ const router = createRouter({
         name: 'seguimiento',
         component: () => import('@/views/admin/SeguimientoView.vue'),
         
-      },
+      }
 
-      
+    
       ]
     },
 
@@ -53,24 +54,25 @@ const router = createRouter({
 
       {
       path: '/worker',
-      name: 'worker',
-      component: WorkerView,
-      meta: {requiresAuth: true, role:'WORKER'}
-      
-      }
+      component: WorkerLayout,
+      meta: { requiresAuth: true, role: 'WORKER' },
 
-  
+      children: [
 
+        {
+          path: '',
+          name: 'worker',
+          component: WorkerView
+        }
 
+      ]
+    }
 
+  ]
 
+    
 
-
-  
-  ],
-})
-
-
+  });
 
 
 //GUARDADO GLOBAL 
