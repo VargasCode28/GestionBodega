@@ -2,16 +2,14 @@
 
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
+import { login } from '@/services/authService';
 
 
 const router = useRouter()
 
-
 const EMAIL = ref('')
 const PASSWORD = ref('')
 const ERROR = ref('')
-
 
 
 
@@ -27,16 +25,20 @@ const loginform = async () => {
 
 
 
-    try {
-        const response = await axios.post('http://localhost:3000/api/auth/login', {
-            email: EMAIL.value,
-            password: PASSWORD.value
-        })
+    // try {
+    //     const response = await axios.post('http://localhost:3000/api/auth/login', {
+    //         email: EMAIL.value,
+    //         password: PASSWORD.value
+    //     })
 
 
-        const  { token, user } = response.data
+        // const  { token, user } = response.data
 
-    
+
+        try {
+
+        const { token, user }= await login(EMAIL.value, PASSWORD.value)
+
 
         localStorage.setItem('token', token)
         localStorage.setItem('user', JSON.stringify(user))
@@ -47,6 +49,7 @@ const loginform = async () => {
         }else {
             router.push('/worker')
         }
+    
 
     }catch (err: any) {
         ERROR.value =
@@ -119,5 +122,4 @@ const loginform = async () => {
 src="/src/styles/LoginView.css"
 
 >
-
 </style>

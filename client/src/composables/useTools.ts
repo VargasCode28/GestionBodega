@@ -1,10 +1,13 @@
-// src/composables/useTools.ts
+
 import { ref } from 'vue'
 import api from '@/services/api'
 import Swal from 'sweetalert2'
 
 export const tools = ref<any[]>([])
 export const error = ref('')
+
+
+
 
 export const loadTools = async () => {
   try {
@@ -14,6 +17,8 @@ export const loadTools = async () => {
     error.value = 'No se pudieron cargar herramientas'
   }
 }
+
+
 
 export const borrowTool = async (toolId: string) => {
   const confirm = await Swal.fire({

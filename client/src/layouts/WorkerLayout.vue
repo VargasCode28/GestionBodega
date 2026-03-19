@@ -79,7 +79,7 @@ router.replace('/');
 
 
 
- <header class="container py-5">
+<header class="container py-5">
       <div class="row align-items-center">
         <div class="col-md-8">
           <h6 class="text-warning text-uppercase fw-bold mb-2 small tracking-widest">Panel de Operaciones</h6>

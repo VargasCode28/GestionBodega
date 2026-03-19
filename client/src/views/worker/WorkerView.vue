@@ -28,9 +28,11 @@ onMounted(() => {
               </div>
               <span class="badge rounded-pill bg-light text-dark border fw-normal px-3">Activo</span>
             </div>
-            <h5 class="fw-bold mb-2">{{ tool.name }}</h5>
+            <h5 class="fw-bold mb-2 ">{{ tool.name }}</h5>
             <p class="text-muted small line-clamp">{{ tool.description }}</p>
-            <div class="mt-4 d-grid">
+            
+            <div class="mt-4 d-grid"> 
+
               <button @click="borrowTool(tool._id)">Pedir Herramienta</button>
             </div>
           </div>

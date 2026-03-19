@@ -304,7 +304,7 @@ onMounted(() => {
             <div class="d-grid gap-2">
               <button v-if="!selectedId" @click="createWorker" class="btn btn-dark fw-bold py-2">Crear Trabajador</button>
               <template v-else>
-                <button @click="updateWorker" class="btn btn-primary fw-bold">Guardar Cambios</button>
+                <button @click="updateWorker" class="btn btn-dark fw-bold">Guardar Cambios</button>
                 <div class="row g-2">
                   <div class="col-6">
                     <button @click="deleteWorker" class="btn btn-outline-danger btn-sm w-100">Eliminar</button>
@@ -333,110 +333,9 @@ onMounted(() => {
 
 
 
-<style scoped>
-/* Reset & Typography */
-.admin-container {
-  font-family: 'Inter', sans-serif;
-  color: #2d3436;
-}
+<style scoped
 
-.tracking-widest { letter-spacing: 0.15em; }
-.x-small { font-size: 0.7rem; }
+src="/src/styles/DashboardAdmin.css"
+>
 
-/* Table Styling */
-.custom-table thead th {
-  background-color: #f8f9fa;
-  text-uppercase: uppercase;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #636e72; 
-  border: none;
-  padding: 1rem;
-}
-
-.custom-table tbody td {
-  padding: 1.2rem 1rem;
-  border-bottom: 1px solid #f1f2f6; 
-}
-
-/* Status Badges */
-.status-active {
-  background: #00c059b4;
-  color: #ffffff;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.status-blocked {
-  background: #ec0000;
-  color: #ffffff;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-
-
-/* Inputs & Buttons */
-.custom-input {
-  border: 1px solid #dfe6e9; 
-  
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  background-color: #fdfdfd; 
-
-}
-
-.custom-input:focus {
-  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
-  border-color: #ffc107;
-}
-
-.btn-icon {
-
-  border: none;
-  border-radius: 8px;
-  width: 38px;
-  height: 38px;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  background: #f8f9fa;
-  border: 1px solid #dee2e6;
-}
-
-.btn-icon:hover {
-  transform: translateY(-2px);
-}
-
-
-
-.btn-icon:hover {
-  background: #e9ecef;
-  transform: translateY(-2px);
-}
-
-.sticky-form {
-  position: sticky;
-  top: 90px;
-}
-
-/* Animation */
-.animate-fade-up {
-  animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsivo */
-@media (max-width: 1200px) {
-  .sticky-form { position: static; }
-}
 </style>
