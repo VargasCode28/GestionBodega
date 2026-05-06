@@ -1,65 +1,9 @@
+
 <script setup lang="ts">
-
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import { login } from '@/services/authService';
+import { useLogin } from '@/composables/useLogin'
 
 
-const router = useRouter()
-
-const EMAIL = ref('')
-const PASSWORD = ref('')
-const ERROR = ref('')
-
-
-
-const loginform = async () => {
-
-    ERROR.value = ''
-
-
-    if(!EMAIL.value || !PASSWORD.value) {
-        ERROR.value= 'Todos los campos son obligatorios'
-        return
-    }
-
-
-
-    // try {
-    //     const response = await axios.post('http://localhost:3000/api/auth/login', {
-    //         email: EMAIL.value,
-    //         password: PASSWORD.value
-    //     })
-
-
-        // const  { token, user } = response.data
-
-
-        try {
-
-        const { token, user }= await login(EMAIL.value, PASSWORD.value)
-
-
-        localStorage.setItem('token', token)
-        localStorage.setItem('user', JSON.stringify(user))
-
-
-        if (user.role === 'ADMIN') {
-            router.push('/admin')
-        }else {
-            router.push('/worker')
-        }
-    
-
-    }catch (err: any) {
-        ERROR.value =
-        err.response?.data?.message ||
-        'Credenciales incorrectas o usuario no autorizado'
-    
-    }
-}
-
-
+const { email, password, errorMessage, isLoading, handleSubmit} = useLogin()
 
 </script>
 
@@ -76,11 +20,11 @@ const loginform = async () => {
         <p class="text-muted small">Panel de Acceso Operativo</p>
     </div>
 
-    <form @submit.prevent="loginform">
+    <form @submit.prevent="handleSubmit">
         <div class="mb-3">
         <label class="form-label small fw-semibold text-secondary">Correo electrónico</label>
         <input 
-            v-model="EMAIL" 
+            v-model="email" 
             type="email" 
             class="form-control form-control-lg custom-input" 
             placeholder="ejemplo@constructora.com"
@@ -90,30 +34,32 @@ const loginform = async () => {
         <div class="mb-4">
         <label class="form-label small fw-semibold text-secondary">Contraseña</label>
         <input 
-            v-model="PASSWORD" 
+            v-model="password" 
             type="password" 
             class="form-control form-control-lg custom-input" 
             placeholder="••••••••"
         >
         </div>
 
-        <button type="submit" class="btn btn-dark w-100 py-2 mb-3 fw-bold shadow-sm">
-        INGRESAR
+        <button type="submit" :disabled="isLoading" class="btn btn-dark w-100 py-2 mb-3 fw-bold shadow-sm">
+      
+        {{ isLoading ? 'Ingresando...' : 'INGRESAR' }}
         </button>
 
-        <div v-if="ERROR" class="alert alert-danger py-2 small text-center border-0" role="alert">
-        {{ ERROR }}
+        <div v-if="errorMessage" class="alert alert-danger py-2 small text-center border-0" role="alert">
+        {{ errorMessage }}
         </div>
 
         <div class="mt-4 pt-3 border-top text-center">
         <p class="text-muted small lh-sm">
             El acceso es gestionado únicamente por el <strong>administrador</strong>.
+            admin@bodega.cl
         </p>
         </div>
     </form>
     </div>
 </div>
-</template>
+</template> 
 
 
 
@@ -122,4 +68,10 @@ const loginform = async () => {
 src="/src/styles/LoginView.css"
 
 >
-</style>
+</style> 
+
+
+
+
+
+
