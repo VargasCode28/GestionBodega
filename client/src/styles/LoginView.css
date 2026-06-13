@@ -4,7 +4,6 @@ min-height: 100vh;
 background-color: #f8f9fa;  
 
 
-/*AQUI ES PARA EL FONDO IMG*/ 
 background-image: url('/src/assets/Bodega_Logistica.jpg');
 background-size: cover;
 background-position: center;
@@ -31,7 +30,6 @@ overflow: hidden;
 .card {
 border-radius: 12px;
 
-/*CARD ES PARA IMG*/ 
 position: relative;
 z-index: 2;
 background-color: rgba(255, 255, 255, 0.9);
@@ -91,3 +89,34 @@ background-color: #000;
 
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

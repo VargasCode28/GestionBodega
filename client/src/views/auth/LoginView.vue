@@ -1,4 +1,3 @@
-
 <script setup lang="ts">
 import { useLogin } from '@/composables/useLogin'
 
@@ -42,7 +41,7 @@ const { email, password, errorMessage, isLoading, handleSubmit} = useLogin()
         </div>
 
         <button type="submit" :disabled="isLoading" class="btn btn-dark w-100 py-2 mb-3 fw-bold shadow-sm">
-      
+    
         {{ isLoading ? 'Ingresando...' : 'INGRESAR' }}
         </button>
 
@@ -69,6 +68,30 @@ src="/src/styles/LoginView.css"
 
 >
 </style> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

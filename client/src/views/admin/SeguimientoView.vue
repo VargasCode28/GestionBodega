@@ -6,6 +6,47 @@ import axios from 'axios';
 
 
 
+import * as XLSX from 'xlsx'
+import jsPDF from 'jspdf'
+import autoTable from 'jspdf-autotable'
+
+const exportExcel = () => {
+  const data = filteredBorrows.value.map(b => ({
+    Trabajador: b.user?.name,
+    Herramienta: b.tool?.name,
+    Fecha: new Date(b.borrowedAt).toLocaleDateString(),
+    Estado: b.status
+  }))
+
+  const ws = XLSX.utils.json_to_sheet(data)
+  const wb = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(wb, ws, 'Préstamos')
+  XLSX.writeFile(wb, `seguimiento_herramientas_${Date.now()}.xlsx`)
+}
+
+const exportPDF = () => {
+  const doc = new jsPDF()
+  doc.setFontSize(14)
+  doc.text('Seguimiento de Herramientas', 14, 15)
+
+  const rows = filteredBorrows.value.map(b => [
+    b.user?.name,
+    b.tool?.name,
+    new Date(b.borrowedAt).toLocaleDateString(),
+    b.status
+  ])
+
+  autoTable(doc, {
+    head: [['Trabajador', 'Herramienta', 'Fecha', 'Estado']],
+    body: rows,
+    startY: 22
+  })
+
+  doc.save(`seguimiento_herramientas_${Date.now()}.pdf`)
+}
+
+
+
 const error = ref('')
 
 
@@ -85,10 +126,6 @@ try {
 
 
 
-
-
-
-
 onMounted(() => {
 
 loadBorrows()
@@ -97,9 +134,6 @@ setInterval(() => {
     loadBorrows()
 }, 5000)
 })
-
-
-
 
 
 
@@ -152,7 +186,15 @@ setInterval(() => {
 
 
 
+<div class="d-flex justify-content-end mb-3 gap-2">
+  <button @click="exportExcel" class="btn btn-sm btn-outline-success">
+    <i class="bi bi-file-earmark-excel me-1"></i> Excel
+  </button>
+  <button @click="exportPDF" class="btn btn-sm btn-outline-danger">
+    <i class="bi bi-file-earmark-pdf me-1"></i> PDF
+  </button>
 
+</div>
 
 
 
@@ -211,7 +253,6 @@ setInterval(() => {
         </thead>
 
         <tbody>
-        <!-- <tr v-for="b in borrows" :key="b._id"> -->   <!-- CHANGE-->
           <tr v-for="b in filteredBorrows" :key="b._id">
 
             <td>{{ b.user?.name }}</td>
