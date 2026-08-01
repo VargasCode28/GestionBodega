@@ -1,8 +1,11 @@
 import router from "@/routes";
 import axios from "axios";
 
+
+
+
 const api = axios.create({
-    baseURL: import.meta.env.VITE_API_URL   // ← variable de entorno
+    baseURL: import.meta.env.VITE_API_URL   // ← variable de entorno super importante mejorar
 
 })
 
@@ -14,7 +17,9 @@ api.interceptors.request.use(config => {
         config.headers.Authorization = `Bearer ${token}`
     }
 
+    
     return config
+
 })
 
 

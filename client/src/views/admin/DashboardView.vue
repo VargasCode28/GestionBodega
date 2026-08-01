@@ -10,6 +10,7 @@ const selectedId = ref<string | null>(null)
 
 
 
+
 const name = ref('')
 const email = ref('')
 const password = ref('')
@@ -164,50 +165,6 @@ onMounted(() => {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 </script>
 
 
@@ -244,7 +201,6 @@ onMounted(() => {
                     <th>Nombre</th>
                     <th>Contacto</th>
                     <th>Estado</th>
-                    <!-- <th class="text-end">Acciones</th> -->
                     <th class="text-end">
                     <i class="bi bi-gear-fill me-1 text-secondary"></i>
                     Acciones
@@ -323,14 +279,6 @@ onMounted(() => {
   </div>
 
 </template>
-
-
-
-
-
-
-
-
 
 
 <style scoped

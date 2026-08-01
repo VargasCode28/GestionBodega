@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref, onMounted } from 'vue'
-import axios from 'axios'
+import api from '@/services/api'
+import toolService from '@/services/toolService'
 
 
 
@@ -49,22 +50,6 @@ const password = ref('')
 const error = ref('')
 
 
-const api = axios.create({
-  baseURL: 'http://localhost:3000/api'
-})
-
-
-
-api.interceptors.request.use((config) => {
-  const token = localStorage.getItem('token')
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`
-  }
-  return config
-})
-
-
-
 
 const loadWorkers = async () => {
   try {
@@ -76,14 +61,13 @@ const loadWorkers = async () => {
 }
 
 
-
-
 const loadTools = async () => {
-  const res = await api.get('/tools')
-  tools.value = res.data
+  try {
+    tools.value = await toolService.getAll()
+  } catch {
+    error.value = 'Error al cargar herramientas'
+  }
 }
-
-
 
 
 
@@ -96,16 +80,11 @@ const selectTool = (t:any) => {
 
 
 
-
-
-
-
-
 const createTool = async () => {
   error.value = ''
 
   try {
-    await api.post('/tools', {
+    await toolService.create({
       name: toolName.value,
       description: toolDescription.value
     })
@@ -114,16 +93,11 @@ const createTool = async () => {
     loadTools()
 
   } catch (err: any) {
-    console.log(err)
-    error.value = err.response?.data?.message || 'Error al crear herramienta'
+    error.value =
+      err.response?.data?.message ||
+      'Error al crear herramienta'
   }
 }
-
-
-
-
-
-
 
 
 
@@ -136,7 +110,7 @@ const updateTool = async () => {
   error.value = ''
 
   try {
-    await api.put(`/tools/${toolSelectedId.value}`, {
+    await toolService.update(toolSelectedId.value, {
       name: toolName.value,
       description: toolDescription.value
     })
@@ -145,25 +119,11 @@ const updateTool = async () => {
     loadTools()
 
   } catch (err: any) {
-    console.log(err)
-    error.value = err.response?.data?.message || 'Error al editar herramienta'
+    error.value =
+      err.response?.data?.message ||
+      'Error al editar herramienta'
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -171,25 +131,23 @@ const updateTool = async () => {
 
 const deleteTool = async () => {
   if (!toolSelectedId.value) return
+
   if (!confirm('¿Eliminar herramienta?')) return
 
   error.value = ''
 
   try {
-    await api.delete(`/tools/${toolSelectedId.value}`)
+    await toolService.remove(toolSelectedId.value)
 
     clearToolForm()
     loadTools()
 
   } catch (err: any) {
-    console.log(err)
-    error.value = err.response?.data?.message || 'Error al eliminar herramienta'
+    error.value =
+      err.response?.data?.message ||
+      'Error al eliminar herramienta'
   }
 }
-
-
-
-
 
 
 
@@ -212,15 +170,11 @@ onMounted(loadTools)
 
 
 
-
-
 const selectWorker = (w: any) => {
   selectedId.value = w._id
   name.value = w.name
   email.value = w.email
 }
-
-
 
 
 
@@ -423,110 +377,13 @@ onMounted(() => {
 
 
 
-
-
-
-
-
-
-
-<style scoped>
-
-
-/* Reset & Typography */
-.admin-container {
-  font-family: 'Inter', sans-serif;
-  color: #2d3436;
-}
-
-.tracking-widest { letter-spacing: 0.15em; }
-.x-small { font-size: 0.7rem; }
-
-/* Table Styling */
-.custom-table thead th {
-  background-color: #f8f9fa;
-  text-uppercase: uppercase;
-  font-size: 0.75rem;
-  font-weight: 700;
-  color: #636e72; 
-  border: none;
-  padding: 1rem;
-}
-
-.custom-table tbody td {
-  padding: 1.2rem 1rem;
-  border-bottom: 1px solid #f1f2f6; 
-}
-
-/* Status Badges */
-.status-active {
-  background: #00c059b4;
-  color: #ffffff;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-.status-blocked {
-  background: #ec0000;
-  color: #ffffff;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 0.8rem;
-  font-weight: 600;
-}
-
-
-
-/* Inputs & Buttons */
-.custom-input {
-  border: 1px solid #dfe6e9; 
-  
-  border-radius: 8px;
-  padding: 0.6rem 1rem;
-  background-color: #fdfdfd; 
-
-}
-
-.custom-input:focus {
-  box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.15);
-  border-color: #ffc107;
-}
-
-.btn-icon {
-  background: #dcdcdc; 
-  border: none;
-  border-radius: 8px;
-  width: 36px;
-  height: 36px;
-  transition: all 0.2s;
-}
-
-.btn-icon:hover {
-  background: #e9ecef;
-  transform: translateY(-2px);
-}
-
-.sticky-form {
-  position: sticky;
-  top: 90px;
-}
-
-/* Animation */
-.animate-fade-up {
-  animation: fadeUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-}
-
-@keyframes fadeUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Responsivo */
-@media (max-width: 1200px) {
-  .sticky-form { position: static; }
-}
-
-
+<style scoped 
+src="/src/styles/Herramientas.css"
+>
 </style>
+
+
+
+
+
+

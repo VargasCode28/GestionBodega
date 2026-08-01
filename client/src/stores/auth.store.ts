@@ -32,8 +32,11 @@ actions: {
 
     localStorage.setItem('token', token)
     localStorage.setItem('user', JSON.stringify(user))
+
+
     },
 
+    
     logout() {
     this.token = null
     this.user = null
