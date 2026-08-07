@@ -1,4 +1,4 @@
-# Gestión de Bodega
+# ContruSoft
 
 Aplicación full stack para el control y seguimiento de herramientas, préstamos y devoluciones en un almacén o taller.
 
