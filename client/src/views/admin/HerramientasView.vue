@@ -71,7 +71,6 @@ const loadTools = async () => {
 
 
 
-// Seleccionar herramienta
 const selectTool = (t:any) => {
   toolSelectedId.value = t._id
   toolName.value = t.name
@@ -157,7 +156,6 @@ const deleteTool = async () => {
 
 
 
-// Limpiar formulario
 const clearToolForm = () => {
   toolSelectedId.value = null
   toolName.value = ''
@@ -165,7 +163,6 @@ const clearToolForm = () => {
 }
 
 
-// cargar herramientas al montar
 onMounted(loadTools)
 
 
@@ -381,6 +378,69 @@ onMounted(() => {
 src="/src/styles/Herramientas.css"
 >
 </style>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

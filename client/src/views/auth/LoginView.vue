@@ -18,7 +18,7 @@ const { email, password, errorMessage, isLoading, handleSubmit } = useLogin()
             <h2 class="fw-bold text-uppercase tracking-wider mb-0">
                 CONSTRU <span class="text-accent">SOFT</span>
             </h2>
-            <p class="text-uppercase text-white small mb-1" style="letter-spacing: 2px;">Administrador</p>
+            <p class="text-uppercase text-white small mb-1" style="letter-spacing: 2px;"></p>
             <p class="text-white small mb-0">Panel de Acceso Operativo</p>
         </div>
 

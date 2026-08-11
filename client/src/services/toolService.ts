@@ -1,9 +1,6 @@
 import api from './api'
 
 
-
-
-
 export interface Tool {
 _id: string
 name: string
@@ -49,4 +46,16 @@ async remove(id: string) {
 
 
 export default toolService
+
+
+
+
+
+
+
+
+
+
+
+
 
