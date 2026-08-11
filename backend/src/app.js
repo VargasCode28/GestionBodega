@@ -7,6 +7,7 @@ import toolRoutes from './routes/tool.routes.js'
 import loanRoutes from './routes/loan.routes.js'
 
 import borrowRoutes from './routes/borrow.routes.js'
+import assistantRoutes from './routes/assistant.routes.js'
 
 const app = express()
 
@@ -24,8 +25,7 @@ app.use('/api/loans', loanRoutes)
 
 
 app.use('/api/borrow', borrowRoutes)
-
-
+app.use('/api/assistant', assistantRoutes)
 
 
 export default app

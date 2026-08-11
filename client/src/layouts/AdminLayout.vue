@@ -1,10 +1,49 @@
 <script setup lang="ts">
+import { computed, ref } from 'vue'
 import { useRouter } from 'vue-router'
+import Swal from 'sweetalert2'
+import api from '@/services/api'
+import { createInitialAssistantMessage, createUserMessage } from '@/composables/useAdminAssistant'
 
 const router = useRouter()
 
-import Swal from 'sweetalert2'
+const isChatOpen = ref(false)
+const chatInput = ref('')
+const messages = ref([createInitialAssistantMessage()])
+const isLoading = ref(false)
 
+const chatPlaceholder = computed(() => (isChatOpen.value ? 'Escribe una pregunta...' : 'Abrir asistente'))
+
+const toggleChat = () => {
+  isChatOpen.value = !isChatOpen.value
+}
+
+const sendMessage = async () => {
+  const text = chatInput.value.trim()
+  if (!text || isLoading.value) return
+
+  messages.value.push(createUserMessage(text))
+  isLoading.value = true
+  chatInput.value = ''
+
+  try {
+    const { data } = await api.post('/assistant/chat', { message: text })
+
+    messages.value.push({
+      id: Date.now() + Math.floor(Math.random() * 1000),
+      text: data.reply,
+      from: 'assistant'
+    })
+  } catch (error) {
+    messages.value.push({
+      id: Date.now() + Math.floor(Math.random() * 1000),
+      text: 'No pude contactar al asistente en este momento. Intenta nuevamente en unos segundos.',
+      from: 'assistant'
+    })
+  } finally {
+    isLoading.value = false
+  }
+}
 
 const logout = async () => {
   const result = await Swal.fire({
@@ -113,6 +152,42 @@ const logout = async () => {
         </router-view>
       </section>
     </main>
+
+    <button class="assistant-fab" @click="toggleChat" type="button" aria-label="Abrir asistente IA">
+      <i class="bi bi-robot"></i>
+    </button>
+
+    <div v-if="isChatOpen" class="assistant-panel shadow">
+      <div class="assistant-header">
+        <div>
+          <h3>Asistente IA</h3>
+          <p>Ayuda rápida para el panel</p>
+        </div>
+        <button @click="toggleChat" type="button" class="assistant-close" aria-label="Cerrar asistente">
+          <i class="bi bi-x-lg"></i>
+        </button>
+      </div>
+
+      <div class="assistant-messages">
+        <div
+          v-for="message in messages"
+          :key="message.id"
+          :class="['assistant-message', message.from === 'user' ? 'user' : 'assistant']"
+        >
+          {{ message.text }}
+        </div>
+        <div v-if="isLoading" class="assistant-message assistant loading">
+          Escribiendo...
+        </div>
+      </div>
+
+      <div class="assistant-input-row">
+        <input v-model="chatInput" @keyup.enter="sendMessage" :placeholder="chatPlaceholder" type="text" />
+        <button @click="sendMessage" type="button" :disabled="isLoading">
+          <i class="bi bi-send"></i>
+        </button>
+      </div>
+    </div>
   </div>
 
   
