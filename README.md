@@ -1,4 +1,4 @@
-# Gestión de Bodega
+# ContruSoft
 
 Aplicación full stack para el control y seguimiento de herramientas, préstamos y devoluciones en un almacén o taller.
 
@@ -72,13 +72,8 @@ Este proyecto permite:
    ```bash
    npm install
    ```
-3. Crear un archivo `.env` con:
-   ```env
-   PORT=3000
-   MONGO_URI=mongodb://127.0.0.1:27017/bodega-tools
-   JWT_SECRET=gestion_bodega_secreta_2026
-   ```
-4. Iniciar el servidor:
+
+3. Iniciar el servidor:
    ```bash
    npm run dev
    ```
