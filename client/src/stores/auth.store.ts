@@ -7,10 +7,13 @@ interface User {
     role: 'ADMIN' | 'WORKER'
 }
 
+
+
 interface AuthState {
-   token: string | null    // ✅ | no ||
+    token: string | null   
     user: User | null
 }
+
 
 export const useAuthStore = defineStore('auth', {
     state: (): AuthState => ({
@@ -25,7 +28,7 @@ getters: {
 
 actions: {
     async login(email: string, password: string) {
-      const { token, user } = await login(email, password)  //  = agregado
+    const { token, user } = await login(email, password)  
 
     this.token = token
     this.user = user
