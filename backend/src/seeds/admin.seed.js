@@ -1,18 +1,23 @@
-
 import bcrypt from 'bcryptjs'
 import User from '../models/User.model.js'
 import { connectDB } from '../config/db.js'
 import 'dotenv/config' 
 
+
+
+
 const seedAdmin = async () => {
 try {
     await connectDB()
+
+
 
     const adminExists = await User.findOne({ role: 'ADMIN' })
 
     if (adminExists) {
     console.log('Admin ya existe')
     process.exit(0)
+    
     }
 
     const hashedPassword = await bcrypt.hash('123456', 10)

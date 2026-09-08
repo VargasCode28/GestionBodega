@@ -52,10 +52,7 @@ const { email, password, errorMessage, isLoading, handleSubmit } = useLogin()
             </div>
 
             <div class="mt-4 pt-3 border-top text-center">
-                <p class="text-white small lh-sm mb-0">
-                    El acceso es gestionado únicamente por el <strong>administrador</strong>.<br>
-                    admin@bodega.cl
-                </p>
+            
             </div>
         </form>
     </div>

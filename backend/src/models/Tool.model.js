@@ -5,6 +5,7 @@ const toolSchema = new mongoose.Schema({
     name: String,
     description: String,
     code: String,
+    imageUrl: String,
 
     status: {
         type: String,

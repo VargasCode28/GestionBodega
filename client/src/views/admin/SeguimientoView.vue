@@ -2,7 +2,7 @@
 import { useSeguimiento} from '@/composables/useSeguimiento'
 import { useExportSeguimiento} from '@/composables/useExportSeguimiento'
 
-const { error , showHistory, filteredBorrows, returnTool} = useSeguimiento()
+const { error , showHistory, filteredBorrows, returnTool, clearReturnedHistory} = useSeguimiento()
 const { exportExcel, exportPDF} =useExportSeguimiento()
 
 </script>
@@ -29,6 +29,9 @@ const { exportExcel, exportPDF} =useExportSeguimiento()
       </div>
 
       <div class="d-flex justify-content-end mb-3 gap-2">
+        <button @click="clearReturnedHistory" class="btn btn-sm btn-outline-warning">
+          <i class="bi bi-trash me-1"></i> Limpiar historial entregado
+        </button>
         <button @click="exportExcel(filteredBorrows)" class="btn btn-sm btn-outline-success">
           <i class="bi bi-file-earmark-excel me-1"></i> Excel
         </button>

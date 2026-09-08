@@ -34,6 +34,15 @@ export function useSeguimiento(pollInterval = 5000) {
     }
   }
 
+  const clearReturnedHistory = async () => {
+    try {
+      await seguimientoService.clearReturnedHistory()
+      await loadBorrows()
+    } catch {
+      error.value = 'Error al limpiar historial'
+    }
+  }
+
   let intervalId: ReturnType<typeof setInterval>
 
   onMounted(() => {
@@ -52,6 +61,7 @@ export function useSeguimiento(pollInterval = 5000) {
     borrows,
     filteredBorrows,
     loadBorrows,
-    returnTool
+    returnTool,
+    clearReturnedHistory
   }
 }

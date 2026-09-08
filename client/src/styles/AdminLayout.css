@@ -254,6 +254,16 @@
   cursor: pointer;
 }
 
+.assistant-input-row .voice-btn {
+  background: #e9ecef;
+  color: #212529;
+}
+
+.assistant-input-row .voice-btn.active {
+  background: #dc3545;
+  color: #fff;
+}
+
 .assistant-input-row button:disabled {
   opacity: 0.7;
   cursor: wait;

@@ -107,3 +107,13 @@ export const getBorrows = async (req, res) => {
 
   res.json(borrows)
 }
+
+export const clearReturnedBorrows = async (req, res) => {
+  try {
+    const result = await Borrow.deleteMany({ status: 'RETURNED' })
+
+    res.json({ message: 'Historial limpiado', deletedCount: result.deletedCount })
+  } catch (error) {
+    res.status(500).json({ message: error.message })
+  }
+}

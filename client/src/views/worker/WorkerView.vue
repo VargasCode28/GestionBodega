@@ -22,6 +22,10 @@ onMounted(() => {
     <div class="row g-4 mt-2">
       <div v-for="(tool, index) in tools" :key="tool._id" class="col-12 col-md-6 col-xl-4">
         <div class="card tool-card h-100" :style="{ animationDelay: `${index * 0.1}s` }">
+          <div class="tool-image-wrapper">
+            <img v-if="tool.imageUrl" :src="tool.imageUrl" :alt="tool.name" class="tool-image" />
+            <div v-else class="tool-image-placeholder"><i class="bi bi-tools"></i></div>
+          </div>
           <div class="card-body p-4">
             <div class="d-flex justify-content-between align-items-start mb-4">
               <div class="icon-container shadow-sm">

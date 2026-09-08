@@ -20,5 +20,9 @@ export const seguimientoService = {
 
     async returnTool(id: string): Promise<void> {
         await api.put(`/borrow/return/${id}`)
+    },
+
+    async clearReturnedHistory(): Promise<void> {
+        await api.delete('/borrow/clear-returned')
     }
 }

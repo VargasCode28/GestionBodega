@@ -15,6 +15,9 @@ const toolSelectedId = ref<string | null>(null)
 
 const  toolName = ref('')
 const toolDescription = ref('')
+const toolImageUrl = ref('')
+const toolImageFile = ref<File | null>(null)
+const imageInput = ref<HTMLInputElement | null>(null)
 
 
 
@@ -75,6 +78,15 @@ const selectTool = (t:any) => {
   toolSelectedId.value = t._id
   toolName.value = t.name
   toolDescription.value = t.description
+  toolImageUrl.value = t.imageUrl || ''
+  toolImageFile.value = null
+}
+
+const handleImageChange = (event: Event) => {
+  const input = event.target as HTMLInputElement
+  const file = input.files?.[0] || null
+  toolImageFile.value = file
+  if (file) toolImageUrl.value = URL.createObjectURL(file)
 }
 
 
@@ -85,7 +97,8 @@ const createTool = async () => {
   try {
     await toolService.create({
       name: toolName.value,
-      description: toolDescription.value
+      description: toolDescription.value,
+      imageFile: toolImageFile.value
     })
 
     clearToolForm()
@@ -111,7 +124,8 @@ const updateTool = async () => {
   try {
     await toolService.update(toolSelectedId.value, {
       name: toolName.value,
-      description: toolDescription.value
+      description: toolDescription.value,
+      imageFile: toolImageFile.value
     })
 
     clearToolForm()
@@ -160,6 +174,9 @@ const clearToolForm = () => {
   toolSelectedId.value = null
   toolName.value = ''
   toolDescription.value = ''
+  toolImageUrl.value = ''
+  toolImageFile.value = null
+  if (imageInput.value) imageInput.value.value = ''
 }
 
 
@@ -323,7 +340,13 @@ onMounted(() => {
                 </thead>
                 <tbody>
                 <tr v-for="t in tools" :key="t._id" :class="{'table-light': toolSelectedId === t._id}">
-                    <td class="fw-bold">{{ t.name }}</td>
+                    <td class="fw-bold">
+                      <div class="d-flex align-items-center gap-2">
+                        <img v-if="t.imageUrl" :src="t.imageUrl" :alt="t.name" class="tool-thumbnail" />
+                        <span v-else class="tool-thumbnail tool-thumbnail-placeholder"><i class="bi bi-tools"></i></span>
+                        <span>{{ t.name }}</span>
+                      </div>
+                    </td>
                     <td class="text-muted small">{{ t.description }}</td>
                     <td class="text-end">
                     <button @click="selectTool(t)" class="btn btn-icon">
@@ -353,6 +376,11 @@ onMounted(() => {
             </div>
             <div class="mb-4">
             <textarea v-model="toolDescription" class="form-control custom-input" placeholder="Descripción técnica..." rows="2"></textarea>
+            </div>
+            <div class="mb-4">
+            <label class="form-label small text-muted mb-1">Imagen de la herramienta</label>
+            <input ref="imageInput" type="file" accept="image/*" class="form-control custom-input" @change="handleImageChange" />
+            <img v-if="toolImageUrl" :src="toolImageUrl" :alt="toolName || 'Vista previa'" class="tool-preview mt-3" />
             </div>
 
             <div class="d-grid gap-2">

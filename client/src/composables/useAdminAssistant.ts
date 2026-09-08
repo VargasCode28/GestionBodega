@@ -4,6 +4,10 @@ type AssistantMessage = {
   from: 'assistant' | 'user'
 }
 
+
+
+
+
 const assistantResponses: Record<string, string> = {
   usuarios: 'Puedes revisar los usuarios desde la sección de admin y verificar estado, roles y actividad reciente.',
   herramientas: 'En herramientas puedes revisar el inventario, agregar nuevos elementos y controlar el stock disponible.',
@@ -12,6 +16,9 @@ const assistantResponses: Record<string, string> = {
   prestamo: 'Si necesitas revisar un préstamo, entra a seguimiento y filtra por herramienta o usuario.',
   admin: 'Soy tu asistente de apoyo para el panel de administración y puedo orientarte sobre usuarios, herramientas y seguimiento.'
 }
+
+
+
 
 export function getAssistantReply(input: string): string {
   const normalized = input.toLowerCase()
@@ -40,3 +47,4 @@ export function createUserMessage(text: string): AssistantMessage {
     from: 'user'
   }
 }
+

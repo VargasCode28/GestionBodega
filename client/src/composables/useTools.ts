@@ -3,6 +3,21 @@ import { ref } from 'vue'
 import api from '@/services/api'
 import Swal from 'sweetalert2'
 
+const apiOrigin = new URL(import.meta.env.VITE_API_URL).origin
+
+const normalizeImageUrl = (imageUrl?: string) => {
+  if (!imageUrl) return imageUrl
+
+  try {
+    const image = new URL(imageUrl, apiOrigin)
+    return image.pathname.startsWith('/uploads/')
+      ? `${apiOrigin}${image.pathname}${image.search}`
+      : imageUrl
+  } catch {
+    return imageUrl
+  }
+}
+
 export const tools = ref<any[]>([])
 export const error = ref('')
 
@@ -12,7 +27,12 @@ export const error = ref('')
 export const loadTools = async () => {
   try {
     const res = await api.get('/tools')
-    tools.value = res.data.filter((tool: any) => tool.status === 'AVAILABLE')
+    tools.value = res.data
+      .filter((tool: any) => tool.status === 'AVAILABLE')
+      .map((tool: any) => ({
+        ...tool,
+        imageUrl: normalizeImageUrl(tool.imageUrl)
+      }))
   } catch {
     error.value = 'No se pudieron cargar herramientas'
   }

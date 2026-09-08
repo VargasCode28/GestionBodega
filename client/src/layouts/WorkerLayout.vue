@@ -45,9 +45,7 @@ router.replace('/');
 
 
 <template>
-<div class="container py-2 animate-fade-up">
-
-<div class="dashboard-wrapper">
+<div class="dashboard-wrapper animate-fade-up">
     <nav class="navbar navbar-expand-lg navbar-light bg-white border-bottom sticky-top py-3">
     <div class="container">
         <a class="navbar-brand fw-bolder tracking-tighter" href="#">
@@ -63,7 +61,6 @@ router.replace('/');
     </div>
 
     </nav>
-</div>
 
 
 
@@ -107,5 +104,5 @@ router.replace('/');
     </main>
     
 
-    </div>
+  </div>
 </template>
