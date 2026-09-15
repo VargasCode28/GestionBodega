@@ -1,3 +1,4 @@
+<img width="1071" height="707" alt="NoSQL" src="https://github.com/user-attachments/assets/87cb0d6a-e275-42f6-b1f1-5b3989886912" />
 # ContruSoft
 
 Aplicación full stack para el control y seguimiento de herramientas, préstamos y devoluciones en un almacén o taller.
@@ -116,4 +117,9 @@ Este proyecto permite:
 <img width="1917" height="853" alt="login" src="https://github.com/user-attachments/assets/e68cb4c9-c7d7-4b8c-bd2c-209a8dae0bb3" />
 
 <img width="1917" height="865" alt="dashboard" src="https://github.com/user-attachments/assets/8caa5a8d-ee63-4dbf-9050-cc1f77bb6cea" />
+
+<img width="1913" height="866" alt="Usuario" src="https://github.com/user-attachments/assets/9811b3b8-f1cc-4c04-8062-eb3fbbfd7f51" />
+
+<img width="1071" height="707" alt="NoSQL" src="https://github.com/user-attachments/assets/ad53477f-f4e6-4979-814a-a03cc4dd86c5" />
+
 
