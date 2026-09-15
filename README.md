@@ -1,4 +1,3 @@
-<img width="1071" height="707" alt="NoSQL" src="https://github.com/user-attachments/assets/87cb0d6a-e275-42f6-b1f1-5b3989886912" />
 # ContruSoft
 
 Aplicación full stack para el control y seguimiento de herramientas, préstamos y devoluciones en un almacén o taller.
