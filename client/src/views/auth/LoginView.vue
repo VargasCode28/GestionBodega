@@ -5,8 +5,12 @@ import { useLogin } from '@/composables/useLogin'
 const { email, password, errorMessage, isLoading, handleSubmit } = useLogin()
 </script>
 
+
+
+
 <template>
-<div class="login-container d-flex align-items-center justify-content-center">
+
+<div class="login-container d-flex align-items-center justify-content-center" >
     <div class="overlay"></div>
 
     <div class="card shadow-sm border-0 p-4 animate-fade-up" style="max-width: 400px; width: 100%;">

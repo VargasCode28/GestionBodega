@@ -16,6 +16,9 @@ backend/.env
 client/.env
 backend/uploads/
 
+# Local admin seed (contains bootstrap credentials)
+backend/src/seeds/admin.seed.js
+
 # Build outputs
 dist
 dist-ssr
