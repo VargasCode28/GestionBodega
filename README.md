@@ -113,7 +113,7 @@ Este proyecto permite:
 4. Envía un pull request describiendo los cambios.
 
 
-<img width="1917" height="872" alt="Screenshot 2026-08-01 112159" src="https://github.com/user-attachments/assets/84ae4277-401b-4904-a91c-b3ba885981bf" />
+<img width="1917" height="853" alt="login" src="https://github.com/user-attachments/assets/e68cb4c9-c7d7-4b8c-bd2c-209a8dae0bb3" />
 
-<img width="1920" height="869" alt="gestionadmin" src="https://github.com/user-attachments/assets/46698415-b67d-49a6-92d9-8f93dcb156be" />
+<img width="1917" height="865" alt="dashboard" src="https://github.com/user-attachments/assets/8caa5a8d-ee63-4dbf-9050-cc1f77bb6cea" />
 
